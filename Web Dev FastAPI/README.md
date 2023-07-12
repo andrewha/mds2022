@@ -8,3 +8,7 @@ To run the app:
 - ```pip install -r requirements.txt```
 - ```uvicorn main:app```
 - (optionally) run ```python tester.py``` to manually send GET requests
+
+Sample solution is shown below.
+
+![](Sample_output.png)
