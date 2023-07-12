@@ -1,0 +1,68 @@
+<!-- Quadratic equation solver main html template document-->
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Quadratic equation solver</title>
+        <!-- link rel="stylesheet" href="{{url_for('static', path='/style.css')}}"-->
+        <link rel="stylesheet" href="/static/style.css">
+    </head>
+    <body>
+        <div class="form">
+            <h3>Enter the coefficients</h2>
+            <form class="form-item" action="/" method="post" enctype="multipart/form-data">
+            <p>a: <input class="input-item" type="text" value="{{coef_a}}" name="coef_a"></p>
+            <p>b: <input class="input-item" type="text" value="{{coef_b}}" name="coef_b"></p>
+            <p>c: <input class="input-item" type="text" value="{{coef_c}}" name="coef_c"></p>
+            <p><button class="button" type="submit">Solve and plot!</button></p>
+            </form>
+        </div>
+
+        <div class="answer">
+            <h3>Found roots</h2>
+            <!-- First visit -->
+            {% if roots is undefined %}
+            {% else %}
+                <!-- roots is a list, if some error occurred, it will be a string -->
+                {% if roots is string %}
+                <h2>{{roots}}</h2>
+                {% else %}    
+                    <!-- Show result -->
+                    {% if roots|length == 2%}
+                        <h2>x<span class="subscript">1</span> = {{roots[0]}}</h2>
+                        <h2>x<span class="subscript">2</span> = {{roots[1]}}</h2>
+                    {% endif %}
+                    {% if roots|length == 1 %}
+                        {% if roots[0] is string %}
+                            <h2>x &isinv; (-&infin;, +&infin;)</h2>
+                        {% else %}
+                            <h2>x = {{roots[0]}}</h2>
+                        {% endif %}
+                    {% endif %}
+                    {% if roots|length == 0 %}
+                        <h2>No real roots</h2>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        </div>
+
+        <div class="get">
+            <p>GET <a href="/solve?a={{coef_a}}&b={{coef_b}}&c={{coef_c}}" title="/solve?a={{coef_a}}&b={{coef_b}}&c={{coef_c}}">request</a> with these coefficients</p>
+        </div>
+
+        <div class="about">
+            <p>This web app was developed on July 6th, 2023 by Andrei Batyrov, student of Fall2022 cohort of Faculty of Computer Science, Higher School of Economics.</p>
+            <p>Powered by <a href="https://fastapi.tiangolo.com/">FastAPI</a></p>
+        </div>
+        
+        <div class="plot">
+            <h3>Plot of function</h2>
+            <!-- First visit -->
+            {% if image is undefined %}
+            {% else %}
+            <!-- Show plot -->
+            <img src="data:image/png;base64, {{image}}" alt="Plot of function">
+            {% endif %}
+        </div>
+    </body>
+</html>
