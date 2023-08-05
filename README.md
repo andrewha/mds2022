@@ -1,1 +1,1 @@
-# Academic research and project materials
+# Academic Research and Project Materials
