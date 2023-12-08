@@ -1,0 +1,53 @@
+-- Database in RelaX calculator 
+-- https://nireas.iee.ihu.gr/relax/calc.htm
+-- Paste this code to the calculator
+
+group: Hotel  
+
+RoomType = {  
+tid:number,rtName:string, nightPrice:number  
+1,'Standard double',2100  
+2,'Standard single',1000  
+3,'Luxury double',8500  
+4, 'Family4', 4500  
+}  
+
+Room = {  
+tid:number,rid:number,Number:number,s:number,seaView:number  
+1,11,111,25,0  
+1,22,112,25,0  
+4,33,113,40,1  
+3,44,114,36,1  
+2,55,115,17,0  
+}  
+
+Guest = {  
+gid:number, gName:string, email:string, country:string  
+01, Ivan,'a007@yandex.sql', Russia  
+02,Sophie,'sewingandruling@mail.sql', USA  
+03, Alex,'helper@mail.sql', Russia  
+04, Nick,'big@mail.sql', USA  
+05, Olga,'honesty@yandex.sql', Russia  
+06, Richard,'ihaveawolf@mail.sql', USA  
+07, Natalya,'natashazvezda@mail.sql', Russia  
+08, Sandra, 'why@mail.sql', USA  
+}  
+
+Stay = {  
+sid:number,gid:number,rid:number,start:date,nights:number,isFinished:number  
+11,4,11,2020-01-07,14,0  
+12,2,44,2020-01-26,5,0  
+13,1,33,2020-02-14,3,0  
+14,3,22,2018-02-21,21,1  
+15,8,55,2017-01-21,12,1  
+16,3,33,2018-12-12,7,1  
+17,3,44,2016-10-10,3,1  
+18,3,55,2020-03-03,2,0  
+19,1,33,2017-02-14,3,1  
+20,4,44,2019-05-05,15,1  
+21,4,44,2020-01-01,13,1  
+22,7,55,2017-08-02,1,1  
+23,5,55,2017-08-02,1,1  
+24,7,11,2017-01-21,21,1  
+25,6,33,2019-12-12,2,1  
+} 
