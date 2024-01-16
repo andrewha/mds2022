@@ -1,4 +1,4 @@
-Please find my 3 solution .ipynb files using Spark SQL, Spark RDD and Spark DF interfaces.
+Please find my 3 solution .ipynb files using [Spark DF](sga-task_DF_Batyrov.ipynb), [Spark RDD](sga-task_RDD_Batyrov.ipynb), and [Spark SQL](sga-task_SQL_Batyrov.ipynb) interfaces.
 
 Top 30 most frequent user routes:
 \# | route	| count
