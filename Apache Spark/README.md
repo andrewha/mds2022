@@ -1,1 +1,35 @@
-Please find my 3 solutions using Spark SQL, Spark RDD and Spark DF interfaces.
+Please find my 3 solution .ipynb files using Spark SQL, Spark RDD and Spark DF interfaces.
+
+Top 30 most frequent user routes:
+route	| count
+:-- | --:
+main | 8184
+main-archive | 1113
+main-rabota | 1047
+main-internet | 897
+main-bonus | 870
+main-news | 769
+main-tariffs | 677
+main-online | 587
+main-vklad | 518
+main-rabota-archive | 170
+main-archive-rabota | 167
+main-bonus-archive | 143
+main-rabota-bonus | 139
+main-bonus-rabota | 135
+main-news-rabota | 135
+main-archive-internet | 132
+main-rabota-news | 130
+main-internet-rabota | 129
+main-archive-news | 126
+main-rabota-internet | 124
+main-internet-archive | 123
+main-archive-bonus | 117
+main-internet-bonus | 115
+main-tariffs-internet | 114
+main-news-archive | 113
+main-news-internet | 109
+main-archive-tariffs | 104
+main-internet-news | 103
+main-tariffs-archive | 103
+main-rabota-main | 94
