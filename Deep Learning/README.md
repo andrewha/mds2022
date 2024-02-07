@@ -1,1 +1,0 @@
-Here you can find solutions for Food101 image classification with ResNet (PyTorch) and ViT (Hugging Face Transformers), and NLP text acceptance binary classification with BERT (Hugging Face Transformers).
