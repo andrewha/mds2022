@@ -93,7 +93,7 @@ int main()
     std::cout << "\n\033[33mContinue test on a buffer of chars\033[0m\n";
     std::cout << "\n\033[33mStage 6. Copy constructor\033[0m\n";
     
-	sz = 3;
+    sz = 3;
     std::cout << "\n1. Instantiate a buffer of size " << sz << " and push " << sz << " chars to it: 'A', 'B', 'C'\n";
     RingBuffer<char> rb3(sz);
     rb3.push('A');
