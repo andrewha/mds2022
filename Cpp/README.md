@@ -1,1 +1,3 @@
-Week 5 Ring Buffer SGA
+C++ projects:
+- Ring Buffer data structure
+- Employee Database console application
