@@ -1,6 +1,6 @@
 $${\color{Green}\text{RingBuffer Class Template test}}$$
 
-$${\color{Green}\text{Test on a buffer of integers}}$$
+$${\color{Green}\text{Test on a buffer of }\tt{integers}}$$
 
 $${\color{Blue}\text{Stage 1. Definition of class fields and Stage 2. Getter method determines the buffer fullness}}$$
 
@@ -137,11 +137,11 @@ Empty? true
 Trying to read:
 ${\color{Red}\text{Failed to read element: buffer is empty.}}$
 
-$${\color{Green}\text{Continue test on a buffer of chars}}$$
+$${\color{Green}\text{Continue test on a buffer of }\tt{chars}}$$
 
 $${\color{Blue}\text{Stage 6. Copy constructor}}$$
 
-1. Instantiate a buffer of size 3 and push 3 chars to it: 'A', 'B', 'C'
+1. Instantiate a buffer of size 3 and push 3 chars to it: `A`, `B`, `C`
 
 Buffer size: 3
 
@@ -173,7 +173,7 @@ Read element(s) from the copied buffer: ABC
 
 Read element(s) from the original buffer: ABC
 
-$${\color{Green}\text{Continue test on a buffer of booleans}}$$
+$${\color{Green}\text{Continue test on a buffer of }\tt{booleans}}$$
 
 $${\color{Blue}\text{Stage 7. Copy assignment operation}}$$
 
