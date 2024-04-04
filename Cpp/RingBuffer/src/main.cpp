@@ -18,7 +18,7 @@ int main()
     }
     catch(const std::exception& e)
     {
-        std::cout << e.what() << '\n';
+        std::cerr << e.what() << '\n';
     }
     
     sz = 5;
@@ -39,7 +39,7 @@ int main()
     }
     catch(const std::exception& e)
     {
-        std::cout << e.what() << '\n';
+        std::cerr << e.what() << '\n';
     }
     
     try
@@ -48,7 +48,7 @@ int main()
     }
     catch(const std::exception& e)
     {
-        std::cout << e.what() << '\n';
+        std::cerr << e.what() << '\n';
     }
 
     std::cout << "\n1. Write (push) " << rb2.getSize() + 1 << " element(s) to the buffer\n";
@@ -67,7 +67,7 @@ int main()
         }
         catch(const std::exception& e)
         {
-            std::cout << e.what() << '\n';
+            std::cerr << e.what() << '\n';
         }
     }
 
@@ -86,7 +86,7 @@ int main()
         }
         catch(const std::exception& e)
         {
-            std::cout << e.what() << '\n';
+            std::cerr << e.what() << '\n';
         }   
     }
     
