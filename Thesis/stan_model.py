@@ -29,7 +29,6 @@ class StanModel(BaseEstimator, RegressorMixin):
         self.random_seed = random_seed
         self.num_chains = num_chains
         self.fit_result_df_ = None # This will store all learned parameters
-        self.y_mean_ = None # Constant term
         self.h_ = None # Log volatility
         
         if self.kind not in ('sv_base', 'sv_x'):
@@ -41,18 +40,14 @@ class StanModel(BaseEstimator, RegressorMixin):
         Fit a Stan model over `self.num_predicts` inference draws.
         This method returns `self` to be in compliance with scikit-learn.
         '''
-
-        self.y_mean_ = y.mean()
         
         if self.kind == 'sv_base':
             stan_data = {'N': y.shape[0], 
-                         'y': y.values, 
-                         'y_mean': self.y_mean_}
+                         'y': y.values}
         
         if self.kind == 'sv_x':
             stan_data = {'N': y.shape[0], 
                          'y': y.values, 
-                         'y_mean': self.y_mean_, 
                          'Temperature': X['Temperature'].values,
                          'Weekday': X['Weekday'].values}
 
@@ -73,26 +68,30 @@ class StanModel(BaseEstimator, RegressorMixin):
         check_is_fitted(self)
         
         if self.kind == 'sv_base':
+            h = self.h_.mean(axis=0).values[-X.shape[0]:] # Take most recent log volatility points
+            y_mean = self.fit_result_df_['y_mean'].mean(axis=0)
             stan_data = {'N_pred': X.shape[0], 
-                         'h': self.h_.mean(axis=0).values[-X.shape[0]:], # Take most recent log volatility points
-                         'y_mean': self.y_mean_}
+                         'h': h,
+                         'y_mean': y_mean}
         
         if self.kind == 'sv_x':
-            beta_0 = self.fit_result_df_['beta_0'].mean(axis=0)
+            h = self.h_.mean(axis=0).values[-X.shape[0]:] # Take most recent log volatility points
+            y_mean = self.fit_result_df_['y_mean'].mean(axis=0)
             beta_1 = self.fit_result_df_['beta_1'].mean(axis=0)
             beta_2 = self.fit_result_df_['beta_2'].mean(axis=0)
             beta_3 = self.fit_result_df_['beta_3'].mean(axis=0)
             gamma = self.fit_result_df_['gamma'].mean(axis=0)
             alpha = self.fit_result_df_['alpha'].mean(axis=0)
+            xi = self.fit_result_df_['xi'].mean(axis=0)
             stan_data = {'N_pred': X.shape[0], 
-                         'h': self.h_.mean(axis=0).values[-X.shape[0]:], # Take most recent log volatility points
-                         'beta_0': beta_0,
+                         'h': h,
+                         'y_mean': y_mean,
                          'beta_1': beta_1,
                          'beta_2': beta_2,
                          'beta_3': beta_3,
                          'gamma': gamma,
                          'alpha': alpha,
-                         'y_mean': self.y_mean_, 
+                         'xi': xi,
                          'Temperature_pred': X['Temperature'].values,
                          'Weekday_pred': X['Weekday'].values}
         
