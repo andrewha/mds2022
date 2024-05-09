@@ -1,5 +1,4 @@
 // SV Baseline model
-// Expected value: mean of y (constant)
 // Volatility: stochastic
 
 data
