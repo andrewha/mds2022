@@ -5,7 +5,7 @@ data
 {
   int<lower=1> N_pred; // Number of test time points (equally spaced)
   vector[N_pred] h;    // Vector of learned log volatility at time t
-  real y_mean;         // Train mean price
+  real y_mean;         // Learned mean price
 }
 
 generated quantities
