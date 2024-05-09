@@ -23,6 +23,7 @@ parameters
   real beta_2;
   real beta_3;
   real gamma; // Param of Weekday exogenous regressor
+  real alpha; // Param of AR(1)
 }
 
 transformed parameters
@@ -45,12 +46,13 @@ model
   h_std ~ std_normal();
   
   // Model
-  // We do not model y[t = 1], since we do not have y[t - 1 = 0] and X[t - 1 = 0]
+  // We do not model y[t = 1], since we do not have y[t - 1 = 0] and Temperature[t - 1 = 0]
   // So assume the first value without Temperature and continue from index 2
   y[1] ~ normal(y_mean + gamma * Weekday[1], exp(h[1] / 2));
   for (t in 2:N)
   {
     y[t] ~ normal(y_mean + 
+                  alpha * y[t - 1] +
                   beta_3 * pow(Temperature[t - 1], 3) + 
                   beta_2 * pow(Temperature[t - 1], 2) + 
                   beta_1 * Temperature[t - 1] + 
