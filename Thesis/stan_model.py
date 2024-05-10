@@ -30,6 +30,7 @@ class StanModel(BaseEstimator, RegressorMixin):
         self.num_chains = num_chains
         self.fit_result_df_ = None # This will store all learned parameters
         self.h_ = None # Log volatility
+        self.y_mean_ = None # Mean price
         
         if self.kind not in ('sv_base', 'sv_x'):
             raise ValueError("Model's kind must be of one ('sv_base', 'sv_x')")
@@ -41,13 +42,17 @@ class StanModel(BaseEstimator, RegressorMixin):
         This method returns `self` to be in compliance with scikit-learn.
         '''
         
+        self.y_mean_ = y.mean()
+
         if self.kind == 'sv_base':
             stan_data = {'N': y.shape[0], 
-                         'y': y.values}
+                         'y': y.values,
+                         'y_mean': self.y_mean_}
         
         if self.kind == 'sv_x':
             stan_data = {'N': y.shape[0], 
                          'y': y.values, 
+                         'y_mean': self.y_mean_,
                          'Temperature': X['Temperature'].values,
                          'Weekday': X['Weekday'].values}
 
@@ -68,15 +73,13 @@ class StanModel(BaseEstimator, RegressorMixin):
         check_is_fitted(self)
         
         if self.kind == 'sv_base':
-            h = self.h_.mean(axis=0).values[-X.shape[0]:] # Take most recent log volatility points
-            y_mean = self.fit_result_df_['y_mean'].mean(axis=0)
+            h = self.h_.mean(axis=0).values[-X.shape[0]:] # Take most recent learned log volatility points
             stan_data = {'N_pred': X.shape[0], 
                          'h': h,
-                         'y_mean': y_mean}
+                         'y_mean': self.y_mean_}
         
         if self.kind == 'sv_x':
-            h = self.h_.mean(axis=0).values[-X.shape[0]:] # Take most recent log volatility points
-            y_mean = self.fit_result_df_['y_mean'].mean(axis=0)
+            h = self.h_.mean(axis=0).values[-X.shape[0]:] # Take most recent learned log volatility points
             beta_1 = self.fit_result_df_['beta_1'].mean(axis=0)
             beta_2 = self.fit_result_df_['beta_2'].mean(axis=0)
             beta_3 = self.fit_result_df_['beta_3'].mean(axis=0)
@@ -85,7 +88,7 @@ class StanModel(BaseEstimator, RegressorMixin):
             xi = self.fit_result_df_['xi'].mean(axis=0)
             stan_data = {'N_pred': X.shape[0], 
                          'h': h,
-                         'y_mean': y_mean,
+                         'y_mean': self.y_mean_,
                          'beta_1': beta_1,
                          'beta_2': beta_2,
                          'beta_3': beta_3,
@@ -152,10 +155,9 @@ class StanModel(BaseEstimator, RegressorMixin):
                 forecast_curr_idx = forecast_start_idx + t
                 # Move forecast window and fit
                 self.fit(X[t:forecast_curr_idx], y[t:forecast_curr_idx])
-                y_mean = self.fit_result_df_['y_mean'].mean(axis=0)
-                h = self.h_.mean(axis=0).values[-1] # Most recent learned volatility
+                h = self.h_.mean(axis=0).values[-1] # Take most recent learned log volatility point
                 # Predict one day ahead
-                y_fore = np.random.normal(y_mean, np.exp(h / 2), size=self.num_samples)
+                y_fore = np.random.normal(self.y_mean_, np.exp(h / 2), size=self.num_samples)
                 y_fores.append(y_fore)
                 
         if self.kind == 'sv_x':
@@ -163,8 +165,7 @@ class StanModel(BaseEstimator, RegressorMixin):
                 forecast_curr_idx = forecast_start_idx + t
                 # Move forecast window and fit
                 self.fit(X[t:forecast_curr_idx], y[t:forecast_curr_idx])
-                y_mean = self.fit_result_df_['y_mean'].mean(axis=0)
-                h = self.h_.mean(axis=0).values[-1] # Most recent learned volatility
+                h = self.h_.mean(axis=0).values[-1] # Take most recent learned log volatility point
                 beta_1 = self.fit_result_df_['beta_1'].mean(axis=0)
                 beta_2 = self.fit_result_df_['beta_2'].mean(axis=0)
                 beta_3 = self.fit_result_df_['beta_3'].mean(axis=0)
@@ -172,7 +173,7 @@ class StanModel(BaseEstimator, RegressorMixin):
                 alpha = self.fit_result_df_['alpha'].mean(axis=0)
                 xi = self.fit_result_df_['xi'].mean(axis=0)
                 # Predict one day ahead
-                y_fore = np.random.normal(y_mean + 
+                y_fore = np.random.normal(self.y_mean_ + 
                                           alpha * y[forecast_curr_idx - 1] +
                                           beta_3 * X['Temperature'].values[forecast_curr_idx - 1] ** 3 + 
                                           beta_2 * X['Temperature'].values[forecast_curr_idx - 1] ** 2 + 
