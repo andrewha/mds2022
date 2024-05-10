@@ -138,9 +138,47 @@ class StanModel(BaseEstimator, RegressorMixin):
         return np.exp(self.h_ / 2)
 
 
-    def forecast_many(self, X):
+    def forecast_many(self, X, y, num_days=1):
         '''
-        Generate forecast one day ahead.
+        Generate distribution of forecasts for `num_days` ahead over `self.num_predicts` posterior draws.
         '''
 
         check_is_fitted(self)
+        y_fores = []
+        forecast_start_idx = X.shape[0] - num_days
+
+        if self.kind == 'sv_base':
+            for t in range(num_days):
+                forecast_curr_idx = forecast_start_idx + t
+                # Move forecast window and fit
+                self.fit(X[t:forecast_curr_idx], y[t:forecast_curr_idx])
+                y_mean = self.fit_result_df_['y_mean'].mean(axis=0)
+                h = self.h_.mean(axis=0).values[-1] # Most recent learned volatility
+                # Predict one day ahead
+                y_fore = np.random.normal(y_mean, np.exp(h / 2), size=self.num_samples)
+                y_fores.append(y_fore)
+                
+        if self.kind == 'sv_x':
+            for t in range(num_days):
+                forecast_curr_idx = forecast_start_idx + t
+                # Move forecast window and fit
+                self.fit(X[t:forecast_curr_idx], y[t:forecast_curr_idx])
+                y_mean = self.fit_result_df_['y_mean'].mean(axis=0)
+                h = self.h_.mean(axis=0).values[-1] # Most recent learned volatility
+                beta_1 = self.fit_result_df_['beta_1'].mean(axis=0)
+                beta_2 = self.fit_result_df_['beta_2'].mean(axis=0)
+                beta_3 = self.fit_result_df_['beta_3'].mean(axis=0)
+                gamma = self.fit_result_df_['gamma'].mean(axis=0)
+                alpha = self.fit_result_df_['alpha'].mean(axis=0)
+                xi = self.fit_result_df_['xi'].mean(axis=0)
+                # Predict one day ahead
+                y_fore = np.random.normal(y_mean + 
+                                          alpha * y[forecast_curr_idx - 1] +
+                                          beta_3 * X['Temperature'].values[forecast_curr_idx - 1] ** 3 + 
+                                          beta_2 * X['Temperature'].values[forecast_curr_idx - 1] ** 2 + 
+                                          beta_1 * X['Temperature'].values[forecast_curr_idx - 1] + 
+                                          gamma * X['Weekday'].values[forecast_curr_idx] +
+                                          xi, np.exp(h / 2), size=self.num_samples)
+                y_fores.append(y_fore)
+        
+        return np.array(y_fores)
