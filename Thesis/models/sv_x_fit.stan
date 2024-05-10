@@ -6,6 +6,7 @@ data
 {
   int<lower=1> N;        // Number of train time points (equally spaced)
   vector[N] y;           // Vector of train prices at time t
+  real y_mean;           // Mean price
   vector[N] Temperature; // Vector of train Air temperature regressor at time t
   vector[N] Weekday;     // Vector of train Weekday regressor at time t
 }
@@ -14,9 +15,8 @@ parameters
 {
   real mu;                     // Mean log volatility
   real<lower=-1, upper=1> phi; // Persistence of volatility
-  real<lower=0> sigma;         // White noise shock scale; for better convergence choose some small value but not exactly 0
+  real<lower=0> sigma;         // White noise shock scale
   vector[N] h_std;             // Standardized log volatility at time t
-  real y_mean;                 // Mean price
   real alpha;                  // Param of Autoregressive component AR(1)
   real beta_1;                 // Params of Air temperature exogenous regressor
   real beta_2;

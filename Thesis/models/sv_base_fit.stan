@@ -5,15 +5,15 @@ data
 {
   int<lower=1> N; // Number of train time points (equally spaced)
   vector[N] y;    // Vector of train prices at time t
+  real y_mean;    // Mean price
 }
 
 parameters
 {
   real mu;                     // Mean log volatility
   real<lower=-1, upper=1> phi; // Persistence of volatility
-  real<lower=0> sigma;         // White noise shock scale; for better convergence choose some small value but not exactly 0
+  real<lower=0> sigma;         // White noise shock scale
   vector[N] h_std;             // Standardized log volatility at time t
-  real y_mean;                 // Mean price
 }
 
 transformed parameters
