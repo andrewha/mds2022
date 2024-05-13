@@ -1,5 +1,14 @@
-// SV Baseline model
-// Volatility: stochastic
+/**
+ * @file sv_base_predict.stan
+ * @author Andrei Batyrov (arbatyrov@edu.hse.ru)
+ * @brief SV Baseline model: Predict method
+ * Exogenous regressors: None
+ * @version 0.1
+ * @date 2024-05-08
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 
 data
 {

@@ -1,5 +1,14 @@
-// SV Baseline model
-// Volatility: stochastic
+/**
+ * @file sv_base_fit.stan
+ * @author Andrei Batyrov (arbatyrov@edu.hse.ru)
+ * @brief SV Baseline model: Fit method
+ * Exogenous regressors: None
+ * @version 0.1
+ * @date 2024-05-08
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 
 data
 {
@@ -18,8 +27,9 @@ parameters
 
 transformed parameters
 {
-  vector[N] h = h_std * sigma;          // Log volatility at time t; now h ~ normal(0, sigma)
-  h[1] = h[1] / sqrt(1 - pow(phi, 2));  // Rescale h[1]
+  // Log volatility at time t; now h ~ normal(0, sigma)
+  vector[N] h = h_std * sigma;
+  h[1] = h[1] / sqrt(1 - pow(phi, 2)); // Rescale h[1]
   h = h + mu;
   for (t in 2:N)
   {
