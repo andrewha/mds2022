@@ -24,7 +24,7 @@ data
   real beta_3;
   real gamma;
   real xi;
-  vector[N_pred] Temperature_pred; // Vector of test Temperature at t
+  vector[N_pred] Temperature_pred; // Vector of test Temperature at time t
   vector[N_pred] Weekday_pred;     // Vector of test Weekday at time t
 }
 
