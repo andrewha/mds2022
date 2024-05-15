@@ -89,11 +89,11 @@ class StanModel(BaseEstimator, RegressorMixin):
             stan_data = {'N_pred': X.shape[0], 
                          'h': h,
                          'y_mean': self.y_mean_,
+                         'alpha': alpha,
                          'beta_1': beta_1,
                          'beta_2': beta_2,
                          'beta_3': beta_3,
                          'gamma': gamma,
-                         'alpha': alpha,
                          'xi': xi,
                          'Temperature_pred': X['Temperature'].values,
                          'Weekday_pred': X['Weekday'].values}
@@ -166,11 +166,11 @@ class StanModel(BaseEstimator, RegressorMixin):
                 # Move forecast window and fit
                 self.fit(X[t:forecast_curr_idx], y[t:forecast_curr_idx])
                 h = self.h_.mean(axis=0).values[-1] # Take most recent learned log volatility point
+                alpha = self.fit_result_df_['alpha'].mean(axis=0)
                 beta_1 = self.fit_result_df_['beta_1'].mean(axis=0)
                 beta_2 = self.fit_result_df_['beta_2'].mean(axis=0)
                 beta_3 = self.fit_result_df_['beta_3'].mean(axis=0)
                 gamma = self.fit_result_df_['gamma'].mean(axis=0)
-                alpha = self.fit_result_df_['alpha'].mean(axis=0)
                 xi = self.fit_result_df_['xi'].mean(axis=0)
                 # Predict one day ahead
                 y_fore = np.random.normal(self.y_mean_ + 
