@@ -1,3 +1,18 @@
+'''
+ @file stan_model.py
+ @author Andrei Batyrov (arbatyrov@edu.hse.ru)
+ @brief StanModel class implementation
+ Inherits from scikit-learn's classes:
+ - BaseEstimator
+ - RegressorMixin
+ Overloads scikit-learn's interfaces:
+ - fit()
+ - predict()
+ @version 0.1
+ @date 2024-05-08
+ @copyright Copyright (c) 2024
+'''
+
 import numpy as np
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.utils.validation import check_is_fitted
