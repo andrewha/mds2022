@@ -1,1 +1,1 @@
-Electricity Spot Prices Forecasting Using Stochastic Volatility Models. Computations report: [html](https://html-preview.github.io/?url=https://github.com/andrewha/mds2022/blob/main/Thesis/sv_models_new.html) and [pdf](https://github.com/andrewha/mds2022/blob/main/Thesis/sv_models_new.pdf).
+Electricity Spot Prices Forecasting Using Stochastic Volatility Models. Computations notebook in [html](https://html-preview.github.io/?url=https://github.com/andrewha/mds2022/blob/main/Thesis/sv_models_new.html).
