@@ -32,7 +32,7 @@ generated quantities
 {
   vector[N_pred] y_pred;
    
-  // Predictions
+  // Generate posterior predictive distribution
   // We do not predict y_pred[t = 1],
   // since we do not have y_pred[t - 1 = 0] and Temperature[t - 1 = 0]
   // So predict the first value without Temperature and AR(1)

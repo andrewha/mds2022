@@ -21,9 +21,10 @@ generated quantities
 {
   vector[N_pred] y_pred;
 
-  // Predictions
+  // Generate posterior predictive distribution
   for (t in 1:N_pred)
   {
-    y_pred[t] = normal_rng(y_mean, exp(h[t] / 2));  
+      y_pred[t] = normal_rng(y_mean, exp(h[t] / 2));
   }
+  
 }
