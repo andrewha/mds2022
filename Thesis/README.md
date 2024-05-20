@@ -1,1 +1,4 @@
-Electricity Spot Prices Forecasting Using Stochastic Volatility Models. Computations notebook in [html](https://html-preview.github.io/?url=https://github.com/andrewha/mds2022/blob/main/Thesis/sv_models_new.html). In case GitHub cannot open the .ipynb file, open it in [nbviewer](https://nbviewer.org/github/andrewha/mds2022/blob/main/Thesis/sv_models_new.ipynb) or simply download it and open locally.
+Electricity Spot Prices Forecasting Using Stochastic Volatility Models
+- Thesis paper as [pdf](https://github.com/andrewha/mds2022/blob/main/Thesis/Master_Thesis_Batyrov.pdf)
+- Computations notebook as [html](https://html-preview.github.io/?url=https://github.com/andrewha/mds2022/blob/main/Thesis/sv_models_new.html)
+- Computations notebook as [ipynb](https://nbviewer.org/github/andrewha/mds2022/blob/main/Thesis/sv_models_new.ipynb)
