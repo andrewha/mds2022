@@ -89,7 +89,7 @@ class StanModel(BaseEstimator, RegressorMixin):
         
         if self.kind == 'sv_base':
             h = self.h_.mean(axis=0).values[-X.shape[0]:] # Take most recent learned log volatility points
-            stan_data = {'N_pred': X.shape[0], 
+            stan_data = {'N_pred': X.shape[0],
                          'h': h,
                          'y_mean': self.y_mean_}
         
@@ -114,9 +114,9 @@ class StanModel(BaseEstimator, RegressorMixin):
                          'Weekday_pred': X['Weekday'].values}
         
         posterior = stan.build(self.stan_code_predict, data=stan_data, random_seed=self.random_seed)
-        y_pred = posterior.fixed_param(num_chains=self.num_chains, num_samples=self.num_samples)
+        y_pred = posterior.fixed_param(num_chains=self.num_chains, num_samples=self.num_samples).to_frame().filter(like='y_pred.', axis=1).values
         
-        return y_pred.to_frame().filter(like='y_pred.', axis=1)
+        return y_pred
 
 
     def predict(self, X):
